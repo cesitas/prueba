@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar color="secondary">
+        <ion-title>feed-detail</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+    <img *ngIf="feedItem?.img" [src]="feedItem.img">
+
+    <ion-item>
+        <ion-note>{{ feedItem?.category }}</ion-note>
+    </ion-item>
+    
+    <h2 margin-horizontal>{{ feedItem?.title }}</h2>
+
+    <ion-item no-lines>
+        <p>{{ feedItem?.category }}</p>
+        <button ion-button clear small icon-start item-end>
+            <ion-icon name="globe"></ion-icon>
+            Ver en la web
+        </button>
+    </ion-item>
+
+    <ion-item no-lines *ngIf="feedItem?.author != null">
+        <ion-avatar item-start>
+            <img [src]="feedItem.author.avatar">
+        </ion-avatar>
+        <h2>{{ feedItem.author.name }}</h2>
+    </ion-item>
+
+    <div [innerHTML]="feedItem?.text" margin-horizontal></div>
+
+    <a *ngIf [href]="feedItem.url"></a>
+</ion-content>

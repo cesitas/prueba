@@ -1,14 +1,40 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <ion-title>
+            Lector RSS
+        </ion-title>
+    </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content>
+
+    <ion-item-group>
+
+        <ion-item-divider color="secondary">
+            RTVE
+        </ion-item-divider>
+
+        <ion-card *ngFor="let item of feedItems" (click)="showItemDetails(item)">
+
+            <img *ngIf="item.img" [src]="item.img">
+
+            <ion-item>
+                <h2 text-wrap>{{ item.anteTitle }}</h2>
+                <p text-wrap>{{ item.title }}</p>
+            </ion-item>
+
+            <ion-item>
+                <ion-note item-end>{{ item.date }}</ion-note>
+            </ion-item>
+
+        </ion-card>
+
+    </ion-item-group>
+
+    <ion-fab bottom right>
+        <button ion-fab mini (click)="test()">
+            test
+        </button>
+    </ion-fab>
+
 </ion-content>
