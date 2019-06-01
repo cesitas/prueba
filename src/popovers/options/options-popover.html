@@ -1,12 +1,5 @@
-<ion-header>
-
-    <ion-navbar>
-        <ion-title>options</ion-title>
-    </ion-navbar>
-
-</ion-header>
-
-
-<ion-content padding>
-
-</ion-content>
+<ion-list no-margin>
+    <ion-item *ngFor="let option of options" (click)="selectOption(option.value)" no-lines>
+        <ion-label>{{ option?.description }}</ion-label>
+    </ion-item>
+</ion-list>

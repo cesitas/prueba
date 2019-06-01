@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavParams, ViewController } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -8,11 +8,17 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class OptionsPopover {
 
-    constructor(public navCtrl: NavController, public navParams: NavParams) {
+    options: Array<{ description: string, value: any }>
+
+    constructor(
+        public navParams: NavParams,
+        public viewCtrl: ViewController
+    ) {
+        this.options = this.navParams.get("options");
     }
 
-    ionViewDidLoad() {
-        console.log('ionViewDidLoad OptionsPopover');
+    selectOption(value: string) {
+        this.viewCtrl.dismiss(value);
     }
 
 }
