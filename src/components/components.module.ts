@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
 import { FeedItemComponent } from './feed-item/feed-item';
+import { IonicModule } from 'ionic-angular';
+import { NgModule } from '@angular/core';
 @NgModule({
-	declarations: [FeedItemComponent],
-	imports: [],
-	exports: [FeedItemComponent]
+    declarations: [FeedItemComponent],
+    imports: [IonicModule],
+    exports: [FeedItemComponent]
 })
-export class ComponentsModule {}
+export class ComponentsModule { }
