@@ -3,6 +3,11 @@
         <ion-title>
             Lector RSS
         </ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="showMoreOptions($event)">
+                <ion-icon name="more"></ion-icon>
+            </button>
+        </ion-buttons>
     </ion-navbar>
 </ion-header>
 
@@ -19,9 +24,29 @@
             RTVE
         </ion-item-divider>
 
-        <ng-container *ngFor="let feedItem of feedItems">
-            <feed-item [feedItem]="feedItem"></feed-item>
+        <ng-container *ngIf="viewOption == 1 else listView">
+            <ion-card *ngFor="let item of feedItems" (click)="showItemDetails(item)">
+
+                <img *ngIf="item.img" [src]="item.img">
+
+                <ion-item>
+                    <h2 text-wrap>{{ item.anteTitle }}</h2>
+                    <p text-wrap>{{ item.title }}</p>
+                </ion-item>
+
+                <ion-item>
+                    <ion-note item-end>{{ item.date }}</ion-note>
+                </ion-item>
+
+            </ion-card>
         </ng-container>
+
+
+        <ng-template #listView>
+            <ng-container *ngFor="let feedItem of feedItems">
+                <feed-item [feedItem]="feedItem"></feed-item>
+            </ng-container>
+        </ng-template>
 
     </ion-list>
 
