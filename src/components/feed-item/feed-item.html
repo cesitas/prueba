@@ -1,4 +1,7 @@
-<!-- Generated template for the FeedItemComponent component -->
-<div>
-  {{text}}
-</div>
+<button ion-item (click)="showItemDetails()">
+    <ion-thumbnail item-start>
+        <img [src]="feedItem?.img">
+    </ion-thumbnail>
+    <h2>{{ feedItem?.anteTitle }}</h2>
+    <p text-wrap class="item-description">{{ feedItem?.title }}</p>
+</button>

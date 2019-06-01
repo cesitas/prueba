@@ -1,22 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FeedItemModel } from '../../models/feed.model';
+import { NavController } from 'ionic-angular';
 
-/**
- * Generated class for the FeedItemComponent component.
- *
- * See https://angular.io/api/core/Component for more info on Angular
- * Components.
- */
 @Component({
-  selector: 'feed-item',
-  templateUrl: 'feed-item.html'
+    selector: 'feed-item',
+    templateUrl: 'feed-item.html'
 })
 export class FeedItemComponent {
 
-  text: string;
+    @Input() feedItem: FeedItemModel;
 
-  constructor() {
-    console.log('Hello FeedItemComponent Component');
-    this.text = 'Hello World';
-  }
+    constructor(public navCtrl: NavController) { }
+
+    showItemDetails() {
+        this.navCtrl.push('FeedDetailPage', { item: this.feedItem });
+    }
 
 }
