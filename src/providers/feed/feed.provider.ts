@@ -11,9 +11,7 @@ export class FeedProvider {
     constructor(
         public http: HttpClient,
         public storage: Storage
-    ) {
-        console.log('Hello FeedProvider Provider');
-    }
+    ) { }
 
     loadFeed(): Promise<FeedItemModel[]> {
         return new Promise<FeedItemModel[]>(resolve => {

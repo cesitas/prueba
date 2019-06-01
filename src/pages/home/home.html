@@ -24,29 +24,14 @@
             RTVE
         </ion-item-divider>
 
-        <ng-container *ngIf="viewOption == 1 else listView">
-            <ion-card *ngFor="let item of feedItems" (click)="showItemDetails(item)">
-
-                <img *ngIf="item.img" [src]="item.img">
-
-                <ion-item>
-                    <h2 text-wrap>{{ item.anteTitle }}</h2>
-                    <p text-wrap>{{ item.title }}</p>
-                </ion-item>
-
-                <ion-item>
-                    <ion-note item-end>{{ item.date }}</ion-note>
-                </ion-item>
-
-            </ion-card>
-        </ng-container>
-
-
-        <ng-template #listView>
-            <ng-container *ngFor="let feedItem of feedItems">
-                <feed-item [feedItem]="feedItem"></feed-item>
+        <ng-container *ngFor="let feedItem of feedItems">
+            <ng-container *ngIf="viewOption == 1 else listView">
+                <feed-card [feedItem]="feedItem"></feed-card>
             </ng-container>
-        </ng-template>
+            <ng-template #listView>
+                <feed-item [feedItem]="feedItem"></feed-item>
+            </ng-template>
+        </ng-container>
 
     </ion-list>
 
