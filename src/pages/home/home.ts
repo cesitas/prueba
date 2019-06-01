@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { NavController, IonicPage } from 'ionic-angular';
 import { FeedProvider } from '../../providers/feed/feed.provider';
-import { FeedItemModel } from '../../models/feed.model';
+import { IonicPage, NavController, Refresher } from 'ionic-angular';
 
 @IonicPage()
 @Component({
@@ -19,12 +18,15 @@ export class HomePage {
         this.feedProvider.loadFeed().then(feedItems => this.feedItems = feedItems != null ? feedItems : []);
     }
 
-    test() {
-        this.feedProvider.refreshFeed().then(feedItems => this.feedItems = feedItems != null ? feedItems : []);
-    }
-
-    showItemDetails(item: FeedItemModel) {
-        this.navCtrl.push('FeedDetailPage', { item });
+    doRefresh(refresher: Refresher) {
+        this.feedProvider.refreshFeed()
+            .then(feedItems => {
+                this.feedItems = feedItems != null ? feedItems : [];
+                refresher.complete()
+            }).catch(error => {
+                console.error(error);
+                refresher.complete()
+            });
     }
 
 }

@@ -8,7 +8,12 @@
 
 <ion-content>
 
-    <ion-item-group>
+    <ion-refresher (ionRefresh)="doRefresh($event)" pullMin="80" pullMax="140">
+        <ion-refresher-content pullingText="Deslizar para actualizar" refreshingText="Actualizando">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <ion-list>
 
         <ion-item-divider color="secondary">
             RTVE
@@ -18,12 +23,6 @@
             <feed-item [feedItem]="feedItem"></feed-item>
         </ng-container>
 
-    </ion-item-group>
-
-    <ion-fab bottom right>
-        <button ion-fab mini (click)="test()">
-            test
-        </button>
-    </ion-fab>
+    </ion-list>
 
 </ion-content>
