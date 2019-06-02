@@ -18,7 +18,8 @@ export class FeedDetailPage {
         this.feedItem = this.navParams.get('item');
     }
 
-    ionViewDidLoad() {
+    openOnBrowser() {
+        window.open(this.feedItem.url, '_system', 'location=yes')
     }
 
 }

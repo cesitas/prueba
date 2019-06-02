@@ -1,15 +1,26 @@
 page-feed-detail {
 	ion-content {
+
+        .feed-category {
+            border-bottom: 1px solid #b5bab6;
+        }
+
+        .feed-ante-title {
+            margin-bottom: 0;
+            font-size: 1.8rem;
+            color: #737578;
+        }
+
+        .feed-title {
+            margin-top: 0;
+        }
+
 		h2 {
 			color: #273057;
-			text-align: justify;
-			text-justify: inter-word;
 			font-size: 1.8rem;
 		}
 		p {
 			color: #343a40;
-			text-align: justify;
-			text-justify: inter-word;
 		}
 		strong {
 			font-weight: 500;
