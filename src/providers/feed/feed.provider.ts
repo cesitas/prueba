@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Storage } from "@ionic/storage";
 import { FeedItemModel, AuthorModel } from '../../models/feed.model';
+import moment, { Moment } from 'moment';
 
 @Injectable()
 export class FeedProvider {
@@ -15,12 +16,16 @@ export class FeedProvider {
 
     loadFeed(): Promise<FeedItemModel[]> {
         return new Promise<FeedItemModel[]>(resolve => {
-            this.storage.get(this.feedStorageKey).then(items => {
+            this.storage.get(this.feedStorageKey).then((items: FeedItemModel[]) => {
                 if (items != null) {
+                    let date1: Moment;
+                    let date2: Moment;
                     items.sort((a, b) => {
-                        if (a.timestamp > b.timestamp) {
+                        date1 = moment(a.date);
+                        date2 = moment(b.date);
+                        if (date1.diff(date2) > 0) {
                             return -1;
-                        } else if (a.timestamp < b.timestamp) {
+                        } else if (date1.diff(date2) < 0) {
                             return 1;
                         } else {
                             return 0;
@@ -35,8 +40,7 @@ export class FeedProvider {
     refreshFeed(): Promise<FeedItemModel[]> {
         return new Promise<FeedItemModel[]>(resolve => {
             this.http.get('http://www.rtve.es/api/noticias.json').toPromise().then(res => {
-                console.log(res);
-                const items = [];
+                const items: FeedItemModel[] = [];
                 if (res != null && res['page'] != null) {
                     const page = res['page'];
                     let item: FeedItemModel;
@@ -46,10 +50,9 @@ export class FeedProvider {
                         item.description = _item.summary;
                         item.url = _item.htmlUrl;
                         item.img = _item.image;
-                        item.date = _item.modificationDate;
+                        item.date = _item.modificationDate ? moment(_item.modificationDate, 'DD-MM-YYYY h:mm:ss').format() : null;
                         item.anteTitle = _item.anteTitle;
-                        item.timestamp = _item.modificationDate;
-                        item.category = _item.mainCategory;
+                        item.category = _item.mainCategory ? _item.mainCategory.replace(/\//g, ' >> ') : null;
                         item.text = _item.text;
                         if (_item.sign != null && _item.sign.name != null && _item.sign.photo != null) {
                             item.author = new AuthorModel();
@@ -59,10 +62,14 @@ export class FeedProvider {
                         items.push(item);
                     }
                 }
+                let date1: Moment;
+                let date2: Moment;
                 items.sort((a, b) => {
-                    if (a.timestamp > b.timestamp) {
+                    date1 = moment(a.date);
+                    date2 = moment(b.date);
+                    if (date1.diff(date2) > 0) {
                         return -1;
-                    } else if (a.timestamp < b.timestamp) {
+                    } else if (date1.diff(date2) < 0) {
                         return 1;
                     } else {
                         return 0;

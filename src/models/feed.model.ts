@@ -11,7 +11,6 @@ export class FeedItemModel {
     url: string;
     date: string;
     anteTitle: string;
-    timestamp: number;
     category: string;
     text: string;
     author: AuthorModel;
