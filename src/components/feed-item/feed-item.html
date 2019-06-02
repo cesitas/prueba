@@ -1,6 +1,6 @@
 <button ion-item (click)="showItemDetails()">
     <ion-thumbnail item-start>
-        <img [src]="feedItem?.img">
+        <img [src]="feedItem?.img ? feedItem.img : 'assets/imgs/logoRTVE.png'">
     </ion-thumbnail>
     <h2>{{ feedItem?.anteTitle }}</h2>
     <p text-wrap class="item-description">{{ feedItem?.title }}</p>
