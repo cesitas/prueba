@@ -38,8 +38,9 @@ export class FeedProvider {
     }
 
     refreshFeed(): Promise<FeedItemModel[]> {
-        return new Promise<FeedItemModel[]>(resolve => {
-            this.http.get('http://www.rtve.es/api/noticias.json').toPromise().then(res => {
+        return new Promise<FeedItemModel[]>((resolve, reject) => {
+            this.http.get('http://www.rtve.es/api/noticias.json').toPromise()
+            .then(res => {
                 const items: FeedItemModel[] = [];
                 if (res != null && res['page'] != null) {
                     const page = res['page'];
@@ -77,6 +78,10 @@ export class FeedProvider {
                 });
                 this.saveFeed(items);
                 resolve(items);
+            })
+            .catch(error => {
+                console.error(error);
+                reject();
             });
         });
     }

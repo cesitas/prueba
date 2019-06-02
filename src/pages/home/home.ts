@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FeedProvider } from '../../providers/feed/feed.provider';
-import { IonicPage, NavController, PopoverController, Refresher } from 'ionic-angular';
+import { IonicPage, NavController, PopoverController, Refresher, ToastController } from 'ionic-angular';
 import { ListViewOptionsEnum } from '../../enums/list-view-options.enum';
 
 @IonicPage()
@@ -18,6 +18,7 @@ export class HomePage {
         public navCtrl: NavController,
         private feedProvider: FeedProvider,
         private popoverCtrl: PopoverController,
+        private toastController: ToastController
     ) {
         this.feedProvider.loadFeed().then(feedItems => this.feedItems = feedItems != null ? feedItems : []);
     }
@@ -26,10 +27,10 @@ export class HomePage {
         this.feedProvider.refreshFeed()
             .then(feedItems => {
                 this.feedItems = feedItems != null ? feedItems : [];
-                refresher.complete()
-            }).catch(error => {
-                console.error(error);
-                refresher.complete()
+                refresher.complete();
+            }).catch(() => {
+                refresher.complete();
+                this.toastController.create({ message: 'No se pudo actualizar. Vuelve a intentarlo más tarde', duration: 3000 }).present();
             });
     }
 
