@@ -9,9 +9,18 @@
             </button>
         </ion-buttons>
     </ion-navbar>
+
+
+
 </ion-header>
 
 <ion-content>
+
+    <div class="sticky-div">
+        <ion-searchbar *ngIf="isSearching" placeholder="Buscar" debounce="500" showCancelButton
+            (ionInput)="filterItems($event)">
+        </ion-searchbar>
+    </div>
 
     <ion-refresher (ionRefresh)="doRefresh($event)" pullMin="80" pullMax="140">
         <ion-refresher-content pullingText="Deslizar para actualizar" refreshingText="Actualizando">
@@ -20,11 +29,7 @@
 
     <ion-list>
 
-        <ion-item-divider color="secondary">
-            RTVE
-        </ion-item-divider>
-
-        <ng-container *ngFor="let feedItem of feedItems">
+        <ng-container *ngFor="let feedItem of shownItems">
             <ng-container *ngIf="viewOption == 1 else listView">
                 <feed-card [feedItem]="feedItem"></feed-card>
             </ng-container>
@@ -34,5 +39,20 @@
         </ng-container>
 
     </ion-list>
+
+    <ng-container *ngIf="feedItems?.length == 0">
+        <ion-row class="empty-list-msg" align-items-center justify-content-center>
+            <ion-col col-auto>
+                <p text-center><b>Sin resultados</b></p>
+                <p text-center>Deslizar hacia abajo para actualizar</p>
+            </ion-col>
+        </ion-row>
+    </ng-container>
+
+    <ion-fab bottom right *ngIf="feedItems?.length > 0">
+        <button ion-fab icon-only mini (click)="switchFilter()">
+            <ion-icon [name]="isSearching ? 'close' : 'search'"></ion-icon>
+        </button>
+    </ion-fab>
 
 </ion-content>

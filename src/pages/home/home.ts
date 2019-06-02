@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FeedProvider } from '../../providers/feed/feed.provider';
 import { IonicPage, NavController, PopoverController, Refresher, ToastController } from 'ionic-angular';
 import { ListViewOptionsEnum } from '../../enums/list-view-options.enum';
+import { FeedItemModel } from '../../models/feed.model';
 
 @IonicPage()
 @Component({
@@ -10,9 +11,13 @@ import { ListViewOptionsEnum } from '../../enums/list-view-options.enum';
 })
 export class HomePage {
 
-    feedItems = [];
+    shownItems: FeedItemModel[] = [];
 
     viewOption = ListViewOptionsEnum.list;
+
+    isSearching = false;
+
+    private feedItems: FeedItemModel[] = [];
 
     constructor(
         public navCtrl: NavController,
@@ -20,13 +25,17 @@ export class HomePage {
         private popoverCtrl: PopoverController,
         private toastController: ToastController
     ) {
-        this.feedProvider.loadFeed().then(feedItems => this.feedItems = feedItems != null ? feedItems : []);
+        this.feedProvider.loadFeed().then(feedItems => {
+            this.feedItems = feedItems != null ? feedItems : []
+            this.shownItems = this.feedItems;
+        });
     }
 
     doRefresh(refresher: Refresher) {
         this.feedProvider.refreshFeed()
             .then(feedItems => {
                 this.feedItems = feedItems != null ? feedItems : [];
+                this.shownItems = this.feedItems;
                 refresher.complete();
             }).catch(() => {
                 refresher.complete();
@@ -47,6 +56,25 @@ export class HomePage {
         popover.present({
             ev: event
         });
+    }
+
+    switchFilter() {
+        this.isSearching = !this.isSearching;
+        if (this.isSearching != true) {
+            this.shownItems = this.feedItems;
+        }
+    }
+
+    filterItems(event: any) {
+        const value = event.target.value;
+        if (value && value.trim() !== '') {
+            this.shownItems = this.feedItems.filter(feedItem => {
+                return (feedItem.title != null && feedItem.title.toLowerCase().includes(value.toLowerCase()))
+                    || (feedItem.anteTitle != null && feedItem.anteTitle.toLowerCase().includes(value.toLowerCase()));
+            });
+        } else {
+            this.shownItems = this.feedItems;
+        }
     }
 
 }
