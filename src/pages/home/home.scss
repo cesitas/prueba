@@ -1,3 +1,11 @@
 page-home {
-
+	.sticky-div {
+		position: sticky;
+		top: 0;
+		z-index: 101;
+	}
+	.empty-list-msg {
+		height: 50%;
+		font-size: 1.5rem;
+	}
 }

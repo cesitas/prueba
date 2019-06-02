@@ -1,0 +1,10 @@
+<ion-card (click)="showItemDetails()">
+    <img [src]="feedItem?.img ? feedItem.img : 'assets/imgs/logoRTVE.png'">
+    <ion-item>
+        <h2 text-wrap>{{ feedItem?.anteTitle }}</h2>
+        <p text-wrap>{{ feedItem?.title }}</p>
+    </ion-item>
+    <ion-item>
+        <ion-note item-end>{{ feedItem?.date | date:'short' }}</ion-note>
+    </ion-item>
+</ion-card>

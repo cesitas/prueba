@@ -1,14 +1,58 @@
 <ion-header>
-  <ion-navbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <ion-title>
+            Lector RSS
+        </ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="showMoreOptions($event)">
+                <ion-icon name="more"></ion-icon>
+            </button>
+        </ion-buttons>
+    </ion-navbar>
+
+
+
 </ion-header>
 
-<ion-content padding>
-  The world is your oyster.
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will be your guide.
-  </p>
+<ion-content>
+
+    <div class="sticky-div">
+        <ion-searchbar *ngIf="isSearching" placeholder="Buscar" debounce="500" showCancelButton
+            (ionInput)="filterItems($event)">
+        </ion-searchbar>
+    </div>
+
+    <ion-refresher (ionRefresh)="doRefresh($event)" pullMin="80" pullMax="140">
+        <ion-refresher-content pullingText="Deslizar para actualizar" refreshingText="Actualizando">
+        </ion-refresher-content>
+    </ion-refresher>
+
+    <ion-list>
+
+        <ng-container *ngFor="let feedItem of shownItems">
+            <ng-container *ngIf="viewOption == 1 else listView">
+                <feed-card [feedItem]="feedItem"></feed-card>
+            </ng-container>
+            <ng-template #listView>
+                <feed-item [feedItem]="feedItem"></feed-item>
+            </ng-template>
+        </ng-container>
+
+    </ion-list>
+
+    <ng-container *ngIf="feedItems?.length == 0">
+        <ion-row class="empty-list-msg" align-items-center justify-content-center>
+            <ion-col col-auto>
+                <p text-center><b>Sin resultados</b></p>
+                <p text-center>Deslizar hacia abajo para actualizar</p>
+            </ion-col>
+        </ion-row>
+    </ng-container>
+
+    <ion-fab bottom right *ngIf="feedItems?.length > 0">
+        <button ion-fab icon-only mini (click)="switchFilter()">
+            <ion-icon [name]="isSearching ? 'close' : 'search'"></ion-icon>
+        </button>
+    </ion-fab>
+
 </ion-content>

@@ -1,0 +1,14 @@
+feed-item {
+    ion-thumbnail {
+        display: flex;
+        align-items: center;
+        img {
+            height: initial !important;
+        }
+    }
+	.item-description {
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+	}
+}

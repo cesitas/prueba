@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar color="secondary">
+        <ion-title>Detalles</ion-title>
+    </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+    <div padding-horizontal>
+        <p class="feed-category">{{ feedItem?.category }}</p>
+        <p class="feed-ante-title">{{ feedItem?.anteTitle }}</p>
+        <h2 class="feed-title">{{ feedItem?.title }}</h2>
+        <p>{{ feedItem?.date | date:'fullDate' }}&nbsp;&bull;&nbsp;{{ feedItem?.date | date:'shortTime' }}</p>
+    </div>
+
+    <img *ngIf="feedItem?.img" [src]="feedItem.img">
+
+    <div padding>
+
+        <button *ngIf="feedItem?.url" ion-button outline block small icon-start (click)="openOnBrowser()">
+            <ion-icon name="globe"></ion-icon>
+            Ver en el navegador
+        </button>
+
+        <ion-item no-lines *ngIf="feedItem?.author != null">
+            <ion-avatar item-start>
+                <img [src]="feedItem.author.avatar">
+            </ion-avatar>
+            <h2>{{ feedItem.author.name }}</h2>
+        </ion-item>
+
+        <div [innerHTML]="feedItem?.text"></div>
+    </div>
+
+</ion-content>
